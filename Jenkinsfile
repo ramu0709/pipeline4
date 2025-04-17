@@ -77,9 +77,9 @@ node {
 
     stage('✅ Deploy to Docker Container') {
         sh """
-            docker stop ${imageName} || true
-            docker rm ${imageName} || true
-            docker run -d --name ${imageName}-${BUILD_NUMBER} -p 8085:8080 ${dockerRegistry}/${imageName}:${BUILD_NUMBER}
+            docker stop ${imageName}-${BUILD_NUMBER} || true
+            docker rm ${imageName}-${BUILD_NUMBER} || true
+            docker run -d --name ${imageName}-${BUILD_NUMBER} -p 9072:8080 ${dockerRegistry}/${imageName}:${BUILD_NUMBER}
         """
     }
 
