@@ -1,8 +1,11 @@
-# Use Tomcat base image with JDK 17
-FROM tomcat:9.0-jdk17-temporal
+# Use OpenJDK 17 image
+FROM openjdk:17-jdk-slim
 
-# Copy the WAR file to Tomcat's webapps directory
-COPY target/maven-web-application.war /usr/local/tomcat/webapps/maven-web-application.war
+# Copy the WAR file into the image
+COPY target/maven-web-application.war /app.war
 
-# Expose port 8080 (inside the container)
+# Expose port 8080 for the application
 EXPOSE 8080
+
+# Set the entrypoint to run the WAR file with java
+ENTRYPOINT ["java", "-jar", "/app.war"]
