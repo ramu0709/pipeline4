@@ -65,17 +65,21 @@ node {
     }
 
     stage('✅ Docker Build & Push') {
-        sh """
-            docker build -t ${dockerRegistry}/${imageName}:${BUILD_NUMBER} .
-            docker push ${dockerRegistry}/${imageName}:${BUILD_NUMBER}
-        """
+        // Docker login to private registry using the provided username and password
+        withCredentials([usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+            sh """
+                docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${dockerRegistry}
+                docker build -t ${dockerRegistry}/${imageName}:${BUILD_NUMBER} .
+                docker push ${dockerRegistry}/${imageName}:${BUILD_NUMBER}
+            """
+        }
     }
 
     stage('✅ Deploy to Docker Container') {
         sh """
             docker stop ${imageName} || true
             docker rm ${imageName} || true
-            docker run -d --name ${imageName} -p 8085:8080 ${dockerRegistry}/${imageName}:${BUILD_NUMBER}
+            docker run -d --name ${imageName}-${BUILD_NUMBER} -p 8085:8080 ${dockerRegistry}/${imageName}:${BUILD_NUMBER}
         """
     }
 
