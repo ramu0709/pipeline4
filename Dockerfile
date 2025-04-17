@@ -1,11 +1,13 @@
-# Use OpenJDK 17 image
 FROM openjdk:17-jdk-slim
 
-# Copy the WAR file into the image
-COPY target/maven-web-application.war /app.war
+# Set the working directory inside the container
+WORKDIR /app
 
-# Expose port 8080 for the application
+# Copy the built WAR file from target directory into the container
+COPY target/maven-web-application.war /app/app.war
+
+# Expose the container's internal port (where the app will run)
 EXPOSE 8080
 
-# Set the entrypoint to run the WAR file with java
-ENTRYPOINT ["java", "-jar", "/app.war"]
+# Set the entry point to run the WAR file
+ENTRYPOINT ["java", "-jar", "/app/app.war"]
