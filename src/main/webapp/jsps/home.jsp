@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Ramu Web Page</title>
-    <link href="images/ramulogo.jpg" rel="icon">
+    <link href="<%= request.getContextPath() %>/images/ramulogo.jpg" rel="icon">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -46,6 +46,6 @@
     <br>
     <h2 class="highlight">Server IP Address: 172.21.40.70</h2>
     <br>
-    <img src="images/ramulogo.jpg" alt="Ramu Logo">
+    <img src="<%= request.getContextPath() %>/images/ramulogo.jpg" alt="Ramu Logo">
 </body>
 </html>
