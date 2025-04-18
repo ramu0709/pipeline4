@@ -59,7 +59,7 @@ pipeline {
             }
         }
 
-        stage('🚀 Run Docker Container on Port 9073') {
+        stage('🚀 Run Docker Container on Port 9074') {
             steps {
                 script {
                     def imageTag = "${DOCKER_HUB_USER}/${IMAGE_NAME}:${BUILD_NUMBER}"
@@ -67,9 +67,9 @@ pipeline {
                         docker stop ${IMAGE_NAME}-${BUILD_NUMBER} || true
                         docker rm ${IMAGE_NAME}-${BUILD_NUMBER} || true
 
-                        docker run -d --name ${IMAGE_NAME}-${BUILD_NUMBER} -p 9073:8080 ${imageTag}
+                        docker run -d --name ${IMAGE_NAME}-${BUILD_NUMBER} -p 9074:8080 ${imageTag}
                     """
-                    echo "🌍 App is running in Docker: http://localhost:9073/jsps/home.jsp"
+                    echo "🌍 App is running in Docker: http://localhost:9074/jsps/home.jsp"
                 }
             }
         }
@@ -85,7 +85,7 @@ pipeline {
         success {
             echo "✅ Deployment successful! Access your app:"
             echo "  🔗 Tomcat: http://172.21.40.70:8082/jsps/home.jsp"
-            echo "  🔗 Docker: http://<your-ip>:9073/jsps/home.jsp"
+            echo "  🔗 Docker: http://<your-ip>:9074/jsps/home.jsp"
         }
         failure {
             echo "❌ Something went wrong!"
