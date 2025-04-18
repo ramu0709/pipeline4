@@ -2,7 +2,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
          http://maven.apache.org/xsd/maven-4.0.0.xsd">
-         
+
     <modelVersion>4.0.0</modelVersion>
     <groupId>Batman</groupId>
     <artifactId>maven-web-application</artifactId>
@@ -47,6 +47,13 @@
             <artifactId>tomcat-embed-jasper</artifactId>
             <version>9.0.100</version>
             <scope>provided</scope>
+        </dependency>
+
+        <!-- JSON Dependency (org.json library) -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20210307</version> <!-- Use the latest version -->
         </dependency>
     </dependencies>
 
