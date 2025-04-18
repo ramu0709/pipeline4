@@ -73,6 +73,12 @@ pipeline {
                 }
             }
         }
+        
+        stage('🧹 Clean Workspace') {
+            steps {
+                cleanWs()  // Clean workspace to avoid leftover files after build
+            }
+        }
     }
 
     post {
@@ -83,6 +89,10 @@ pipeline {
         }
         failure {
             echo "❌ Something went wrong!"
+        }
+        always {
+            // Clean the workspace after the pipeline run, to ensure no leftover files
+            cleanWs()
         }
     }
 }
