@@ -75,8 +75,8 @@ pipeline {
                         artifacts: [[
                             artifactId: 'application',
                             classifier: '',
-                            file: 'target/application-0.0.1-SNAPSHOT.jar',
-                            type: 'jar'
+                            file: 'target/maven-web-application-0.0.1-SNAPSHOT.war',
+                            type: 'war'
                         ]],
                         credentialsId: 'nexus-credentials',
                         groupId: 'Batman',
