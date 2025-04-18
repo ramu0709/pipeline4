@@ -1,13 +1,13 @@
-FROM openjdk:17-jdk-slim
+FROM tomcat:9.0-jdk17-temporal
 
-# Set the working directory inside the container
-WORKDIR /app
+# Remove default apps
+RUN rm -rf /usr/local/tomcat/webapps/*
 
-# Copy the built WAR file from target directory into the container
-COPY target/maven-web-application.war /app/app.war
+# Copy WAR file as ROOT.war
+COPY target/maven-web-application.war /usr/local/tomcat/webapps/ROOT.war
 
-# Expose the container's internal port (where the app will run)
+# Expose Tomcat's port
 EXPOSE 8080
 
-# Set the entry point to run the WAR file
-ENTRYPOINT ["java", "-jar", "/app/app.war"]
+# Start Tomcat
+CMD ["catalina.sh", "run"]
