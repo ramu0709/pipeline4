@@ -69,13 +69,13 @@ pipeline {
                 script {
                     def isMain = (env.BRANCH_NAME == "main" || env.BRANCH_NAME == "master")
                     def repository = isMain ? "sample-release" : "sample-snapshot"
-                    def version = isMain ? "0.0.1" : "0.0.1-SNAPSHOT"
+                    def version = "1.0"  // Updated to version 1.0
 
                     nexusArtifactUploader(
                         artifacts: [[
                             artifactId: 'application',
                             classifier: '',
-                            file: 'target/maven-web-application-0.0.1-SNAPSHOT.war',
+                            file: "target/maven-web-application-${version}.war",  // Using version 1.0 here
                             type: 'war'
                         ]],
                         credentialsId: 'nexus-credentials',
