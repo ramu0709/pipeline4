@@ -28,8 +28,8 @@
         }
 
         img {
-            margin-top: 20px;
-            width: 100px;
+            margin-top: 40px;
+            width: 150px;
         }
 
         .highlight {
