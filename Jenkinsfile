@@ -69,19 +69,16 @@ pipeline {
                 script {
                     def isMain = (env.BRANCH_NAME == "main" || env.BRANCH_NAME == "master")
                     def repository = isMain ? "sample-release" : "sample-snapshot"
-                    def version = isMain ? "1.0" : "1.0-SNAPSHOT"  // Set version to 1.0
+                    def version = isMain ? "1.0" : "1.0-SNAPSHOT"
+                    def warFile = "target/maven-web-application.war"
 
-                    // Define the WAR file path
-                    def warFile = "target/maven-web-application.war"  // Correct WAR file path
-
-                    // Ensure the WAR file exists before uploading
                     if (fileExists(warFile)) {
                         nexusArtifactUploader(
                             artifacts: [[
                                 artifactId: 'application',
                                 classifier: '',
-                                file: warFile,  // Reference to the correct WAR file
-                                type: 'war'     // Set to 'war' instead of 'jar'
+                                file: warFile,
+                                type: 'war'
                             ]],
                             credentialsId: 'nexus-credentials',
                             groupId: 'Batman',
@@ -123,6 +120,16 @@ pipeline {
                         docker stop ${IMAGE_NAME}-${BUILD_NUMBER} || true
                         docker rm ${IMAGE_NAME}-${BUILD_NUMBER} || true
                         docker run -d --name ${IMAGE_NAME}-${BUILD_NUMBER} -p 9073:8080 ${imageTag}
+                    """
+
+                    echo """
+                    🌐 Your application is now running in a Docker container.
+
+                    You can access it in your browser at:
+                    👉 http://localhost:9073 (if running locally)
+                    👉 http://172.21.40.70:9073 (if running on your Jenkins host)
+
+                    Make sure port 9073 is accessible.
                     """
                 }
             }
