@@ -32,7 +32,7 @@ pipeline {
             }
         }
 
-        stage('🚀 Deploy to Tomcat (Running Server)') {
+        stage('🚀 Deploy to Tomcat (Port 8082)') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'Tomcat-Cred', usernameVariable: 'TOMCAT_USER', passwordVariable: 'TOMCAT_PASS')]) {
                     sh '''
@@ -69,14 +69,14 @@ pipeline {
 
                         docker run -d --name ${IMAGE_NAME}-${BUILD_NUMBER} -p 9073:8080 ${imageTag}
                     """
-                    echo "🌍 App is running in Docker: http://localhost:9073 or http://<your-ip>:9073"
+                    echo "🌍 App is running in Docker: http://localhost:9073/jsps/home.jsp"
                 }
             }
         }
-        
+
         stage('🧹 Clean Workspace') {
             steps {
-                cleanWs()  // Clean workspace to avoid leftover files after build
+                cleanWs()
             }
         }
     }
@@ -84,14 +84,13 @@ pipeline {
     post {
         success {
             echo "✅ Deployment successful! Access your app:"
-            echo "  🔗 Tomcat: http://172.21.40.70:8082/"
-            echo "  🔗 Docker: http://<your-ip>:9073/"
+            echo "  🔗 Tomcat: http://172.21.40.70:8082/jsps/home.jsp"
+            echo "  🔗 Docker: http://<your-ip>:9073/jsps/home.jsp"
         }
         failure {
             echo "❌ Something went wrong!"
         }
         always {
-            // Clean the workspace after the pipeline run, to ensure no leftover files
             cleanWs()
         }
     }
