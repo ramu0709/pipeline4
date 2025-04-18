@@ -69,23 +69,31 @@ pipeline {
                 script {
                     def isMain = (env.BRANCH_NAME == "main" || env.BRANCH_NAME == "master")
                     def repository = isMain ? "sample-release" : "sample-snapshot"
-                    def version = "1.0"  // Updated to version 1.0
+                    def version = isMain ? "1.0" : "1.0-SNAPSHOT"  // Set version to 1.0
 
-                    nexusArtifactUploader(
-                        artifacts: [[
-                            artifactId: 'application',
-                            classifier: '',
-                            file: "target/maven-web-application-${version}.war",  // Using version 1.0 here
-                            type: 'war'
-                        ]],
-                        credentialsId: 'nexus-credentials',
-                        groupId: 'Batman',
-                        version: version,
-                        repository: repository,
-                        nexusUrl: '172.21.40.70:8081',
-                        nexusVersion: 'nexus3',
-                        protocol: 'http'
-                    )
+                    // Define the WAR file path
+                    def warFile = "target/maven-web-application.war"  // Correct WAR file path
+
+                    // Ensure the WAR file exists before uploading
+                    if (fileExists(warFile)) {
+                        nexusArtifactUploader(
+                            artifacts: [[
+                                artifactId: 'application',
+                                classifier: '',
+                                file: warFile,  // Reference to the correct WAR file
+                                type: 'war'     // Set to 'war' instead of 'jar'
+                            ]],
+                            credentialsId: 'nexus-credentials',
+                            groupId: 'Batman',
+                            version: version,
+                            repository: repository,
+                            nexusUrl: '172.21.40.70:8081',
+                            nexusVersion: 'nexus3',
+                            protocol: 'http'
+                        )
+                    } else {
+                        error "WAR file not found: ${warFile}"
+                    }
                 }
             }
         }
